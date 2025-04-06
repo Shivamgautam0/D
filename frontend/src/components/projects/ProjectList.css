@@ -1,0 +1,21 @@
+.project-list {
+  padding: 20px;
+}
+
+.project-list h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.project-row {
+  cursor: pointer;
+}
+
+.project-row:hover {
+  background-color: #f8f9fa;
+}
+
+.badge {
+  padding: 8px 12px;
+  font-weight: 500;
+} 

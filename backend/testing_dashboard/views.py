@@ -2,6 +2,7 @@ from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import get_object_or_404
 from .models import Project, Road
 from .serializers import ProjectSerializer, RoadSerializer, ProjectDetailSerializer
 
@@ -18,12 +19,34 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return ProjectDetailSerializer
         return ProjectSerializer
     
+    def list(self, request):
+        projects = {
+            'nhai': [],
+            'rsa': [],
+            'xls': []
+        }
+        
+        all_projects = self.get_queryset()
+        for project in all_projects:
+            if project.status == 'TESTING':
+                category = 'nhai'
+            elif project.status == 'COMPLETED':
+                category = 'rsa'
+            else:
+                category = 'xls'
+            
+            projects[category].append(self.get_serializer(project).data)
+        
+        return Response(projects)
+    
     @action(detail=True, methods=['get'])
     def roads(self, request, pk=None):
         project = self.get_object()
-        roads = project.roads.all()
-        serializer = RoadSerializer(roads, many=True)
-        return Response(serializer.data)
+        roads = Road.objects.filter(project=project).order_by('road_type')
+        return Response({
+            'project': self.get_serializer(project).data,
+            'roads': RoadSerializer(roads, many=True).data
+        })
     
     @action(detail=False, methods=['get'])
     def testing(self, request):

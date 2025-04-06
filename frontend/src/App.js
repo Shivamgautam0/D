@@ -6,11 +6,10 @@ import './App.css';
 
 // Components
 import Header from './components/common/Header';
-import Dashboard from './components/dashboard/Dashboard';
+import Dashboard from './components/Dashboard';
 import ProjectList from './components/projects/ProjectList';
 import ProjectDetail from './components/projects/ProjectDetail';
-import RoadList from './components/roads/RoadList';
-import RoadDetail from './components/roads/RoadDetail';
+import ProjectDetails from './components/ProjectDetails';
 
 function App() {
   return (
@@ -23,9 +22,7 @@ function App() {
             <Route path="/projects" element={<ProjectList />} />
             <Route path="/projects/:status" element={<ProjectList />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
-            <Route path="/project/:id/roads" element={<RoadList />} />
-            <Route path="/project/:id/roads/:status" element={<RoadList />} />
-            <Route path="/road/:id" element={<RoadDetail />} />
+            <Route path="/project/:type/:id" element={<ProjectDetails />} />
           </Routes>
         </div>
       </div>
@@ -34,6 +31,3 @@ function App() {
 }
 
 export default App;
-
-// src/App.css
-import './App.css';
